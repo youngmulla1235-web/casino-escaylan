@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CASINO ESCAYLAN</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101014;color:white;font-family:Arial,sans-serif}
+header{background:#19191f;padding:20px;text-align:center;border-bottom:2px solid #d6a52b}
+header h1{color:#f4c542;margin:0;font-size:27px}
+header p{color:#bbb;font-size:12px}
+.balance{margin:15px;padding:18px;background:#22222b;border-radius:12px;text-align:center}
+.balance strong{display:block;color:#f4c542;font-size:27px;margin:8px}
+.notice{text-align:center;color:#ffc857;font-size:12px;padding:8px}
+h2{margin:20px 15px;color:#f4c542}
+.games{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px}
+.game{background:#22222b;border-radius:12px;padding:18px 10px;text-align:center;border:1px solid #383842}
+.game .emoji{font-size:38px}
+.game h3{margin:10px 0}
+button{background:#d6a52b;color:#171717;border:0;padding:12px;border-radius:8px;font-weight:bold;width:100%;margin-top:8px}
+button:disabled{opacity:.5}
+.panel{margin:15px;background:#22222b;padding:18px;border-radius:12px;text-align:center}
+#result{font-size:25px;color:#f4c542;margin:15px}
+input{padding:12px;width:100%;border-radius:7px;border:0;margin-top:10px}
+footer{text-align:center;color:#888;padding:25px;font-size:12px}
+</style>
+</head>
+<body>
+
+<header>
+<h1>👑 CASINO ESCAYLAN</h1>
+<p>O TEU MUNDO DE JOGOS</p>
+</header>
+
+<div class="balance">
+SALDO VIRTUAL
+<strong id="balance">1000</strong>
+MOEDAS DE DEMONSTRAÇÃO
+</div>
+
+<div class="notice">⚠️ MODO DE TESTE — NÃO UTILIZA DINHEIRO REAL</div>
+
+<h2>🎮 Jogos disponíveis</h2>
+
+<div class="games">
+<div class="game">
+<div class="emoji">✈️</div>
+<h3>Aviator</h3>
+<button onclick="aviator()">JOGAR</button>
+</div>
+
+<div class="game">
+<div class="emoji">🚀</div>
+<h3>JetX</h3>
+<button onclick="jetx()">JOGAR</button>
+</div>
+
+<div class="game">
+<div class="emoji">🎰</div>
+<h3>Slots</h3>
+<button onclick="slots()">JOGAR</button>
+</div>
+
+<div class="game">
+<div class="emoji">💣</div>
+<h3>Mines</h3>
+<button onclick="mines()">JOGAR</button>
+</div>
+
+<div class="game">
+<div class="emoji">🎯</div>
+<h3>Plinko</h3>
+<button onclick="plinko()">JOGAR</button>
+</div>
+
+<div class="game">
+<div class="emoji">🎡</div>
+<h3>Roleta</h3>
+<button onclick="roulette()">JOGAR</button>
+</div>
+
+<div class="game">
+<div class="emoji">🃏</div>
+<h3>Blackjack</h3>
+<button onclick="blackjack()">JOGAR</button>
+</div>
+
+<div class="game">
+<div class="emoji">🎲</div>
+<h3>Dados</h3>
+<button onclick="dice()">JOGAR</button>
+</div>
+</div>
+
+<div class="panel">
+<h2>🎮 Área de jogo</h2>
+<div id="result">Escolhe um jogo!</div>
+<p id="message">Diverte-te com moedas virtuais.</p>
+</div>
+
+<div class="panel">
+<h2>💳 Carteira virtual</h2>
+<button onclick="wallet('Depósito')">Simular depósito</button>
+<button onclick="wallet('Levantamento')">Simular levantamento</button>
+<p id="walletMessage">Operações apenas demonstrativas.</p>
+</div>
+
+<footer>
+CASINO ESCAYLAN © 2026<br>
+Plataforma experimental de jogos virtuais.
+</footer>
+
+<script>
+let balance=1000;
+
+function update(){
+document.getElementById("balance").innerText=balance;
+}
+
+function play(name){
+if(balance<10){
+document.getElementById("result").innerText="Saldo insuficiente";
+return false;
+}
+balance-=10;
+update();
+document.getElementById("result").innerText=name;
+return true;
+}
+
+function prize(multiplier){
+let win=10*multiplier;
+balance+=win;
+update();
+document.getElementById("message").innerText=
+"Resultado: "+multiplier+"x | Prémio virtual: "+win+" moedas";
+}
+
+function aviator(){
+if(!play("✈️ AVIATOR"))return;
+let x=(1+Math.random()*5).toFixed(2);
+document.getElementById("result").innerText="✈️ "+x+"x";
+prize(Number(x));
+}
+
+function jetx(){
+if(!play("🚀 JETX"))return;
+let x=(1+Math.random()*4).toFixed(2);
+document.getElementById("result").innerText="🚀 "+x+"x";
+prize(Number(x));
+}
+
+function slots(){
+if(!play("🎰 SLOTS"))return;
+let a=Math.floor(Math.random()*5);
+let b=Math.floor(Math.random()*5);
+let c=Math.floor(Math.random()*5);
+document.getElementById("result").innerText=[a,b,c].join(" | ");
+if(a===b&&b===c)prize(10);
+else document.getElementById("message").innerText="Tenta novamente!";
+}
+
+function mines(){
+if(!play("💣 MINES"))return;
+let win=Math.random()>.35;
+document.getElementById("result").innerText=win?"💎 Encontraste um diamante!":"💣 Encontraste uma mina!";
+if(win)prize(2);
+}
+
+function plinko(){
+if(!play("🎯 PLINKO"))return;
+let x=[0,0.5,1,2,3][Math.floor(Math.random()*5)];
+document.getElementById("result").innerText="🎯 "+x+"x";
+if(x>0)prize(x);
+}
+
+function roulette(){
+if(!play("🎡 ROLETA"))return;
+let x=Math.floor(Math.random()*37);
+document.getElementById("result").innerText="Número: "+x;
+if(x===0)prize(10);
+else if(x%2===0)prize(2);
+else document.getElementById("message").innerText="Não ganhaste desta vez.";
+}
+
+function blackjack(){
+if(!play("🃏 BLACKJACK"))return;
+let x=Math.floor(Math.random()*11)+11;
+document.getElementById("result").innerText="Pontuação: "+x;
+if(x>=18)prize(2);
+else document.getElementById("message").innerText="Fim da rodada!";
+}
+
+function dice(){
+if(!play("🎲 DADOS"))return;
+let x=Math.floor(Math.random()*6)+1;
+document.getElementById("result").innerText="Resultado: "+x;
+if(x>=4)prize(2);
+}
+
+function wallet(type){
+document.getElementById("walletMessage").innerText=
+type+" de demonstração. Nenhum dinheiro real foi movimentado.";
+}
+</script>
+</body>
+</html>
