@@ -138,12 +138,63 @@ document.getElementById("message").innerText=
 "Resultado: "+multiplier+"x | Prémio virtual: "+win+" moedas";
 }
 
+
+let aviatorTimer=null;
+let aviatorMultiplier=1;
+let aviatorCrash=1;
+let aviatorActive=false;
+
 function aviator(){
+if(aviatorActive)return;
 if(!play("✈️ AVIATOR"))return;
-let x=(1+Math.random()*5).toFixed(2);
-document.getElementById("result").innerText="✈️ "+x+"x";
-prize(Number(x));
+
+aviatorMultiplier=1;
+aviatorCrash=1.2+Math.random()*4;
+aviatorActive=true;
+
+document.getElementById("message").innerText=
+"O avião descolou! Retira antes da queda.";
+
+function updateAviator(){
+aviatorMultiplier+=0.02;
+
+document.getElementById("result").innerHTML=
+"✈️ AVIATOR<br><br>"+
+"<span style='font-size:38px'>"+
+aviatorMultiplier.toFixed(2)+"x</span><br>"+
+"<button onclick='cashOutAviator()'>RETIRAR PRÉMIO</button>";
+
+if(aviatorMultiplier>=aviatorCrash){
+clearInterval(aviatorTimer);
+aviatorActive=false;
+document.getElementById("result").innerText=
+"💥 AVIÃO DESPENCOU!";
+
+document.getElementById("message").innerText=
+"Perdeste 10 moedas virtuais. Tenta novamente!";
 }
+}
+
+aviatorTimer=setInterval(updateAviator,100);
+}
+
+function cashOutAviator(){
+if(!aviatorActive)return;
+
+clearInterval(aviatorTimer);
+aviatorActive=false;
+
+let ganho=10*aviatorMultiplier;
+balance+=ganho;
+update();
+
+document.getElementById("result").innerText=
+"🎉 RETIRADA: "+aviatorMultiplier.toFixed(2)+"x";
+
+document.getElementById("message").innerText=
+"Prémio virtual: "+ganho.toFixed(2)+" moedas!";
+}
+
 
 function jetx(){
 if(!play("🚀 JETX"))return;
