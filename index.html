@@ -158,10 +158,11 @@ document.getElementById("message").innerText=
 function updateAviator(){
 aviatorMultiplier+=0.02;
 
-document.getElementById("result").innerHTML=
-"✈️ AVIATOR<br><br>"+
-"<span style='font-size:38px'>"+
-aviatorMultiplier.toFixed(2)+"x</span><br>"+
+document.getElementById("result").innerHTML =
+"✈️ AVIATOR<br><br>" +
+"<span style='font-size:38px'>" +
+aviatorMultiplier.toFixed(2)+"x</span><br>" +
+"<small style='color:#f4c542'>O avião está a subir! Retira antes da queda.</small><br><br>" +
 "<button onclick='cashOutAviator()'>RETIRAR PRÉMIO</button>";
 
 if(aviatorMultiplier>=aviatorCrash){
